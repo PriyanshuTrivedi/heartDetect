@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cardo&display=swap" rel="stylesheet">
+    <title>Project</title>
+    <style>
+        body{ 
+            font-family: 'Cardo', serif; 
+            font-weight: bold;
+        }
+        .reduce_width{
+            width: 25vw;
+        }
+        .outside_nav{
+            width: 100vw;
+            height: 80vh;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+        }
+        .increase_height{
+            height: 80vh;
+            width: 33vw;
+        }
+        .my-container{
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+        }
+        .make_flex{
+            display: flex;
+            justify-content: space-between;
+        }
+        .to_centre{
+            text-align: center;
+        }
+    </style>
+    {% if output %}
+        <style>
+            body{
+                background-image:url('static/resultyes.jpg'); 
+                background-size: cover;
+            }
+            .reduce_opacity_by_bg{
+                background-color: hsla(0, 39%, 76%, 0.647);
+            }
+        </style>
+    {% else %}
+        <style>
+            body{
+                background-image:url('static/resultno.jpg'); 
+                background-size: cover;
+            }
+            .reduce_opacity_by_bg{
+                background-color: hsla(122, 33%, 81%, 0.647);
+            }
+        </style>
+    {% endif %}
+</head>
+<body>
+    <nav class="navbar sticky-top navbar-expand-lg ">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">Heart Disease detection</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/About">About</a>
+              </li>
+            </ul>
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/aboutDevelopers">About Developers</a>
+                </li>
+              </ul>
+          </div>
+        </div>
+    </nav>
+    <div class="outside_nav">
+        <div class="my-container">
+            <div class="row row-cols-1 row-cols-md-1 g-4 increase_height">
+                <div class="col">
+                    <div class="card h-100 reduce_opacity_by_bg">
+                        <div class="card-body">
+                            <h3 class="card-title to_centre">Results</h3>
+                            <p class="card-text">{{fvals['patient_name']}}, according to the following details, you have
+                                {% if output %}
+                                    a high 
+                                {% else %}
+                                    less 
+                                {% endif %}
+                                chance of having a heart disease.
+                            </p>
+                        </div>
+                        <div class="card-footer make_flex">
+                            <small>Age</small>
+                            <small>{{fvals['age']}}</small>
+                        </div>
+                        <div class="card-footer make_flex">
+                            <small>Gender</small>
+                            <small>
+                                {% if fvals['sex'] %}
+                                    Female
+                                {% else %}
+                                    Male
+                                {% endif %}
+                            </small>
+                        </div>
+                        <div class="card-footer make_flex">
+                            <small>Chest Pain</small>
+                            <small>
+                                {% if fvals['cp']==0 %}
+                                    None
+                                {% elif fvals['cp']==1 %}
+                                    Typical Angina
+                                {% elif fvals['cp']==2 %}
+                                    Non Angina
+                                {% else %}
+                                    Asymptomatic
+                                {% endif %}
+                            </small>
+                        </div>
+                        <div class="card-footer make_flex">
+                            <small>Resting blood pressure</small>
+                            <small>{{fvals['trestbps']}}</small>
+                        </div>
+                        <div class="card-footer make_flex">
+                            <small>Cholestrol</small>
+                            <small>{{fvals['chol']}}</small>
+                        </div>
+                        <div class="card-footer make_flex">
+                            <small>Fasting Blood Sugar</small>
+                            <small>
+                                {% if fvals['fbs']==0 %}
+                                    &lt; 120mg/dl
+                                {% else %}
+                                    &gt; 120mg/dl
+                                {% endif %}
+                            </small>
+                        </div>
+                        <div class="card-footer make_flex">
+                            <small>Resting Electrocardiographic results</small>
+                            <small>
+                                {% if fvals['restecg']==0 %}
+                                    Normal
+                                {% elif fvals['restecg']==1 %}
+                                    Having ST-T abnormality
+                                {% else %}
+                                    Hypertrophy
+                                {% endif %}
+                            </small>
+                        </div>
+                        <div class="card-footer make_flex">
+                            <small>Maximum heart rate</small>
+                            <small>{{fvals['thalach']}}</small>
+                        </div>
+                        <div class="card-footer make_flex">
+                            <small>exercise Induced angina</small>
+                            <small>
+                                {% if fvals['exang']==0 %}
+                                    No
+                                {% else %}
+                                    Yes
+                                {% endif %}
+                            </small>
+                        </div>
+                        <div class="card-footer make_flex">
+                            <small>ST Depression</small>
+                            <small>{{fvals['oldpeak']}}</small>
+                        </div>
+                        <div class="card-footer make_flex">
+                            <small>Slope of The Peak Exercise ST Segment</small>
+                            <small>
+                                {% if fvals['slope']==0 %}
+                                    Unsloping
+                                {% elif fvals['slope']==1 %}
+                                    Flat
+                                {% else %}
+                                    Downsloping
+                                {% endif %}
+                            </small>
+                        </div>
+                        <div class="card-footer make_flex">
+                            <small>Number of Major Vessels (0-3) Colored By Flourosopy</small>
+                            <small>
+                                {% if fvals['ca']==0 %}
+                                    None
+                                {% elif fvals['ca']==1 %}
+                                    One
+                                {% elif fvals['ca']==2 %}
+                                    Two
+                                {% else %}
+                                    Three
+                                {% endif %}
+                            </small>
+                        </div>
+                        <div class="card-footer make_flex">
+                            <small>Thalium Scan Results</small>
+                            <small>
+                                {% if fvals['thal']==0 %}
+                                    Normal
+                                {% elif fvals['thal']==1 %}
+                                    Fixed defect
+                                {% else %}
+                                    Reversible defect
+                                {% endif %}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+</body>
+</html>
